@@ -134,12 +134,15 @@ def correr(lab, entrada, salida):
     print('Laberinto:')
     mostrable = laberinto_mostrable(lab, entrada, salida)
     mostrar_laberinto(mostrable, entrada, salida)
+    print()
     resuelve, mostrable = buscar_salida(laberinto, entrada, salida)
     if resuelve:
         print('Laberinto tiene solución:')
         mostrar_laberinto(mostrable, entrada, salida)
+        return True
     else:
         print('Laberinto NO tiene solución')
+    return False
 
 
 laberinto = [[1, 1, 0, 1, 1, 1, 0, 1, 1, 1],
@@ -150,6 +153,7 @@ laberinto = [[1, 1, 0, 1, 1, 1, 0, 1, 1, 1],
              [1, 1, 0, 1, 1, 1, 0, 0, 0, 0]]
 entrada, salida = (2, 0), (5, 9)
 correr(laberinto, entrada, salida)
+print()
 laberinto = [[1, 1, 0, 1, 1, 1, 0, 1, 1, 1],
              [1, 1, 0, 1, 1, 0, 0, 0, 0, 0],
              [0, 0, 0, 1, 0, 0, 1, 1, 0, 1],
@@ -157,5 +161,28 @@ laberinto = [[1, 1, 0, 1, 1, 1, 0, 1, 1, 1],
              [1, 1, 0, 0, 0, 0, 1, 1, 1, 1],
              [1, 1, 0, 1, 1, 1, 0, 0, 0, 0]]
 correr(laberinto, entrada, salida)
+print()
 salida = (1, 9)
 correr(laberinto, entrada, salida)
+print()
+
+import random
+
+while 1:
+    print('Ahora un laberinto aleatorio:')
+    laberinto = []
+    filas, columnas = 10, 20
+    for i in range(filas):
+        laberinto.append([])
+        for j in range(columnas):
+            if random.random() < 0.7:
+                laberinto[-1].append(0)
+            else:
+                laberinto[-1].append(1)
+    entrada, salida = (random.randint(0, filas - 1), 0), (random.randint(0, filas - 1), columnas - 1)
+    laberinto[entrada[0]][entrada[1]] = 0
+    laberinto[salida[0]][salida[1]] = 0
+    if correr(laberinto, entrada, salida):
+       break
+    else:
+        print()
