@@ -8,6 +8,6 @@ def inversa(cadena):
     return inv
 
 
-assert inversa('estoy probando') == 'odnaborp yotse', inversa('estoy probando')
-assert inversa('hola mundo') == 'odnum aloh', inversa('hola mundo')
-assert inversa('un símbolo especial: 😀') == '😀 :laicepse olobmís nu', inversa('un símbolo especial: 😀')  # Python 3 maneja bien esto
+assert inversa('estoy probando') == 'odnaborp yotse'
+assert inversa('hola mundo') == 'odnum aloh'
+assert inversa('un símbolo especial: 😀') == '😀 :laicepse olobmís nu'  # Python 3 maneja bien esto

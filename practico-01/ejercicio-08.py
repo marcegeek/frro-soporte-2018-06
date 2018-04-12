@@ -11,9 +11,9 @@ def superposicion(lista1, lista2):
     return False
 
 
-assert superposicion(['a'], ['b', 'c', 'a']), superposicion(['a'], ['b', 'c', 'a'])
-assert superposicion(['c'], ['b', 'c', 'a']), superposicion(['c'], ['b', 'c', 'a'])
-assert superposicion(['b', 'c', 'a'], ['a']), superposicion(['b', 'c', 'a'], ['a'])
-assert superposicion(['b', 'c', 'a'], ['c']), superposicion(['b', 'c', 'a'], ['c'])
-assert not superposicion(['b', 'c', 'a'], ['h']), not superposicion(['b', 'c', 'a'], ['h'])
-assert not superposicion([], []), not superposicion([], [])
+assert superposicion(['a'], ['b', 'c', 'a'])
+assert superposicion(['c'], ['b', 'c', 'a'])
+assert superposicion(['b', 'c', 'a'], ['a'])
+assert superposicion(['b', 'c', 'a'], ['c'])
+assert not superposicion(['b', 'c', 'a'], ['h'])
+assert not superposicion([], [])

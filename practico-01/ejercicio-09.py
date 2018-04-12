@@ -9,7 +9,7 @@ def generar_n_caracteres(n, c):
     return res
 
 
-assert generar_n_caracteres(5, 'x') == 'xxxxx', generar_n_caracteres(5, 'x')
-assert generar_n_caracteres(1, 'e') == 'e', generar_n_caracteres(1, 'e')
-assert generar_n_caracteres(0, 'e') == '', generar_n_caracteres(0, '')
-assert generar_n_caracteres(8, 'a') == 'aaaaaaaa', generar_n_caracteres(8, 'aaaaaaaa')
+assert generar_n_caracteres(5, 'x') == 'xxxxx'
+assert generar_n_caracteres(1, 'e') == 'e'
+assert generar_n_caracteres(0, 'e') == ''
+assert generar_n_caracteres(8, 'a') == 'aaaaaaaa'

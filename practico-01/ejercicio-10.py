@@ -9,8 +9,8 @@ def mas_larga(palabras):
     return larga
 
 
-assert mas_larga(['hola', 'mundo', 'cadena', 'palabra']) == 'palabra', mas_larga(['hola', 'mundo', 'cadena', 'palabra'])
-assert mas_larga(['palabra', 'mundo', 'cadena', 'a']) == 'palabra', mas_larga(['palabra', 'mundo', 'cadena', 'a'])
-assert mas_larga(['']) == '', mas_larga([''])
-assert mas_larga(['hola']) == 'hola', mas_larga(['hola'])
-assert mas_larga(['hola', 'cadena', 'a']) == 'cadena', mas_larga(['hola', 'cadena', 'a'])
+assert mas_larga(['hola', 'mundo', 'cadena', 'palabra']) == 'palabra'
+assert mas_larga(['palabra', 'mundo', 'cadena', 'a']) == 'palabra'
+assert mas_larga(['']) == ''
+assert mas_larga(['hola']) == 'hola'
+assert mas_larga(['hola', 'cadena', 'a']) == 'cadena'

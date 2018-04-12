@@ -8,8 +8,8 @@ def es_palindromo(str):
     return True
 
 
-assert es_palindromo('radar'), es_palindromo('radar')
-assert es_palindromo('reconocer'), es_palindromo('reconocer')
-assert not es_palindromo('banana'), not es_palindromo('banana')
-assert es_palindromo('a'), es_palindromo('a')
-assert es_palindromo('😀'), es_palindromo('😀')
+assert es_palindromo('radar')
+assert es_palindromo('reconocer')
+assert not es_palindromo('banana')
+assert es_palindromo('a')
+assert es_palindromo('😀')
