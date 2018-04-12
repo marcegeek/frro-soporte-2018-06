@@ -6,9 +6,9 @@ def longitud(lista):
 
 
 cadena = 'cadena de prueba'
-print('Longitud \'' + cadena + '\':', longitud(cadena))
+assert longitud(cadena) == 16
 cadena = 'probando'
-print('Longitud de \'' + cadena + '\':', longitud(cadena))
-print('Longitud de \'😀\':', longitud('😀'))  # esto en Python 3 da 1, no así en Python 2
+assert longitud(cadena) == 8
+assert longitud('😀') == 1  # esto en Python 3 da 1, no así en Python 2
 lista = ['una cadena', 'otra cadena', 58, 0.5]
-print('La lista:', lista, 'tiene', longitud(lista), 'elementos')
+assert longitud(lista) == 4

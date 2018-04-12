@@ -5,6 +5,6 @@ def max(a, b):
         return b
 
 
-print('max(8, 5) =', max(8, 5))
-print('max(5, 8) =', max(5, 8))
-print('max(5, 5) =', max(5, 5))
+assert max(8, 5) == 8
+assert max(5, 8) == 8
+assert max(5, 5) == 5

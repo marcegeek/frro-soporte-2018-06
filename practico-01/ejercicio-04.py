@@ -7,8 +7,8 @@ def es_vocal(letra):
     return letra in ['a', 'e', 'i', 'o', 'u']
 
 
-print('es_vocal(\'a\'):', es_vocal('a'))
-print('es_vocal(\'A\'):', es_vocal('A'))
-print('es_vocal(\'I\'):', es_vocal('I'))
-print('es_vocal(\'h\'):', es_vocal('h'))
-print('es_vocal(\'X\'):', es_vocal('X'))
+assert es_vocal('a')
+assert es_vocal('A')
+assert es_vocal('I')
+assert not es_vocal('h')
+assert not es_vocal('X')
