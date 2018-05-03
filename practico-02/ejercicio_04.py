@@ -8,6 +8,7 @@
 # - avance(): indica que porcentaje de la carrera tiene aprobada.
 # - edad_ingreso(): indica que edad tenia al ingresar a la carrera (basándose en el año actual).
 
+from datetime import datetime
 from ejercicio_03 import Persona
 
 
@@ -24,7 +25,8 @@ class Estudiante(Persona):
 
     # implementar usando modulo datetime
     def edad_ingreso(self):
-        pass
+        anio_actual = datetime.now().year
+        return self.edad - (anio_actual - self.anio)
 
     def print_data(self):
         super().print_data()
@@ -32,9 +34,10 @@ class Estudiante(Persona):
         print('Materias de la carrera:', self.cantidad_materias)
         print('Materias aprobadas:', self.cantidad_aprobadas)
         print('Porcentaje completado: {p} %'.format(p=self.avance()))
+        print('Edad al ingreso: {e}'.format(e=self.edad_ingreso()))
 
 
 if __name__ == '__main__':
-    estu = Estudiante('Carlos', 23, 'M', 65.0, 1.6, 'ISI', 2010, 52, 20)
+    estu = Estudiante('Carlos', 26, 'M', 65.0, 1.6, 'ISI', 2010, 52, 20)
     estu.print_data()
     assert estu.avance() == 38
