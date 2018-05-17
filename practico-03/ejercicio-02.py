@@ -2,7 +2,7 @@ import pymysql
 
 conn, cur = None, None
 try:
-    conn = pymysql.connect(host='www.db4free.net', user='personas_user', passwd='personas', db='personasdb')
+    conn = pymysql.connect(host='localhost', user='root', passwd='MySQL', db='personasdb')
     cur = conn.cursor()
     insert_cmd = 'insert into personas(Nombre, FechaNacimiento, DNI, Altura) values (%s, %s, %s, %s)'
     cur.execute(insert_cmd, ('Roberto', '1991-01-18', 35333123, 170))
