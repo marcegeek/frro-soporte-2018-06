@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `personasdb` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci */;
+USE `personasdb`;
 -- MySQL dump 10.13  Distrib 5.7.9, for Win32 (AMD64)
 --
 -- Host: localhost    Database: personasdb
@@ -24,12 +26,13 @@ DROP TABLE IF EXISTS `personas`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `personas` (
   `IdPersona` int(11) NOT NULL AUTO_INCREMENT,
-  `Nombre` char(45) DEFAULT NULL,
+  `Nombre` char(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_czech_ci NOT NULL,
   `FechaNacimiento` datetime DEFAULT NULL,
-  `DNI` decimal(13,0) DEFAULT NULL,
-  `Altura` int(11) DEFAULT NULL,
-  PRIMARY KEY (`IdPersona`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
+  `DNI` decimal(13,0) NOT NULL,
+  `Altura` int(11) NOT NULL,
+  PRIMARY KEY (`IdPersona`),
+  UNIQUE KEY `DNI_UNIQUE` (`DNI`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -41,4 +44,4 @@ CREATE TABLE `personas` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-05-03 19:11:43
+-- Dump completed on 2018-05-17 18:30:03
