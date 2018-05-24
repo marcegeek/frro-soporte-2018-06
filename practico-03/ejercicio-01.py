@@ -2,7 +2,7 @@ import pymysql
 
 conn, cur = None, None
 try:
-    conn = pymysql.connect(host='localhost', user='root', passwd='MySQL', db='personasdb')
+    conn = pymysql.connect(host='localhost', user='personas_user', passwd='personas', db='personasdb')
     cur = conn.cursor()
     cur.execute('select * from personas')
     lista_personas = cur.fetchall()
