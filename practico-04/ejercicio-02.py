@@ -11,7 +11,7 @@ class Calculator2:
 
     def configure_gui(self):
         self.root.title('Calculadora 2')
-        self.root.geometry('180x150')
+        self.root.geometry('300x350')
         self.root.resizable(1, 1)
 
     def create_widgets(self):
