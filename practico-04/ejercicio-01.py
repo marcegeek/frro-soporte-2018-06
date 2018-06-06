@@ -8,20 +8,21 @@ import tkinter.messagebox as mbox
 
 
 class Calculator:
-    def __init__(self, master):
-        self.master = master
+    def __init__(self):
+        self.root = tk.Tk()
         self.configure_gui()
         self.create_widgets()
+        self.root.mainloop()
 
     def configure_gui(self):
-        self.master.title('Calculadora')
-        self.master.geometry('500x100')
-        self.master.resizable(1, 1)
-        self.master.columnconfigure(0, weight=1)
-        self.master.rowconfigure(0, weight=1)
+        self.root.title('Calculadora')
+        self.root.geometry('500x100')
+        self.root.resizable(1, 1)
 
     def create_widgets(self):
-        self.frame = tk.Frame(self.master)
+        self.frame = tk.Frame(self.root)
+        self.root.columnconfigure(0, weight=1)
+        self.root.rowconfigure(0, weight=1)
         self.frame.grid(column=0, row=0, padx=(5, 5), pady=(5, 5),
                         sticky=tk.S + tk.E + tk.N + tk.W)
         self.lbl_v1 = tk.Label(self.frame, text='Primer operando')
@@ -71,9 +72,7 @@ class Calculator:
 
 
 def main():
-    root = tk.Tk()
-    calc = Calculator(root)
-    root.mainloop()
+    calc = Calculator()
 
 
 if __name__ == '__main__':
