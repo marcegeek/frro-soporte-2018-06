@@ -3,34 +3,50 @@ import tkinter.messagebox as mbox
 
 
 class Calculator2:
-    def __init__(self, master):
-        self.master = master
+    def __init__(self):
+        self.root = tk.Tk()
         self.configure_gui()
         self.create_widgets()
+        self.root.mainloop()
 
     def configure_gui(self):
-        self.master.title('Calculadora 2')
-        self.master.geometry('180x150')
+        self.root.title('Calculadora 2')
+        self.root.geometry('180x150')
+        self.root.resizable(1, 1)
 
     def create_widgets(self):
+        self.frame = tk.Frame(self.root)
+        self.root.columnconfigure(0, weight=1)
+        self.root.rowconfigure(0, weight=1)
+        self.frame.grid(column=0, row=0, padx=(5, 5), pady=(5, 5),
+                        sticky=tk.W + tk.E + tk.N + tk.S)
         self.expression_var = tk.StringVar()
-        self.txt_expression = tk.Entry(self.master, textvariable=self.expression_var)
-        self.btn_0 = tk.Button(self.master, text='0', command=self.add_0)
-        self.btn_1 = tk.Button(self.master, text='1', command=self.add_1)
-        self.btn_2 = tk.Button(self.master, text='2', command=self.add_2)
-        self.btn_3 = tk.Button(self.master, text='3', command=self.add_3)
-        self.btn_4 = tk.Button(self.master, text='4', command=self.add_4)
-        self.btn_5 = tk.Button(self.master, text='5', command=self.add_5)
-        self.btn_6 = tk.Button(self.master, text='6', command=self.add_6)
-        self.btn_7 = tk.Button(self.master, text='7', command=self.add_7)
-        self.btn_8 = tk.Button(self.master, text='8', command=self.add_8)
-        self.btn_9 = tk.Button(self.master, text='9', command=self.add_9)
-        self.btn_plus = tk.Button(self.master, text='+', command=self.add_plus)
-        self.btn_minus = tk.Button(self.master, text='-', command=self.add_minus)
-        self.btn_times = tk.Button(self.master, text='x', command=self.add_times)
-        self.btn_divide = tk.Button(self.master, text='/', command=self.add_divide)
-        self.btn_equals = tk.Button(self.master, text='=', command=self.compute)
+        self.txt_expression = tk.Entry(self.frame, textvariable=self.expression_var)
+        self.btn_0 = tk.Button(self.frame, text='0', command=self.add_0)
+        self.btn_1 = tk.Button(self.frame, text='1', command=self.add_1)
+        self.btn_2 = tk.Button(self.frame, text='2', command=self.add_2)
+        self.btn_3 = tk.Button(self.frame, text='3', command=self.add_3)
+        self.btn_4 = tk.Button(self.frame, text='4', command=self.add_4)
+        self.btn_5 = tk.Button(self.frame, text='5', command=self.add_5)
+        self.btn_6 = tk.Button(self.frame, text='6', command=self.add_6)
+        self.btn_7 = tk.Button(self.frame, text='7', command=self.add_7)
+        self.btn_8 = tk.Button(self.frame, text='8', command=self.add_8)
+        self.btn_9 = tk.Button(self.frame, text='9', command=self.add_9)
+        self.btn_plus = tk.Button(self.frame, text='+', command=self.add_plus)
+        self.btn_minus = tk.Button(self.frame, text='-', command=self.add_minus)
+        self.btn_times = tk.Button(self.frame, text='x', command=self.add_times)
+        self.btn_divide = tk.Button(self.frame, text='/', command=self.add_divide)
+        self.btn_equals = tk.Button(self.frame, text='=', command=self.compute)
 
+        self.frame.rowconfigure(0, weight=1)
+        self.frame.rowconfigure(1, weight=1)
+        self.frame.rowconfigure(2, weight=1)
+        self.frame.rowconfigure(3, weight=1)
+        self.frame.rowconfigure(4, weight=1)
+        self.frame.columnconfigure(0, weight=1)
+        self.frame.columnconfigure(1, weight=1)
+        self.frame.columnconfigure(2, weight=1)
+        self.frame.columnconfigure(3, weight=1)
         self.txt_expression.grid(columnspan=4)
         self.btn_7.grid(row=1, column=0)
         self.btn_8.grid(row=1, column=1)
@@ -100,9 +116,7 @@ class Calculator2:
 
 
 def main():
-    root = tk.Tk()
-    p = Calculator2(root)
-    root.mainloop()
+    calc = Calculator2()
 
 
 if __name__ == '__main__':
