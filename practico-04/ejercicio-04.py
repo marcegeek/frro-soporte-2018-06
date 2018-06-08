@@ -13,6 +13,7 @@ class EditaCiudad:
             self.top.title('Editando ciudad')
         else:
             self.top.title('Nueva ciudad')
+            ciudad = '', ''
         self.top.resizable(1, 0)
 
         self.resultado = None
@@ -22,9 +23,11 @@ class EditaCiudad:
         self.frame.grid(sticky=tk.W + tk.E)
         self.lbl_ciudad = ttk.Label(self.frame, text='Ciudad')
         self.ciudad_var = tk.StringVar()
+        self.ciudad_var.set(ciudad[0])
         self.txt_ciudad = ttk.Entry(self.frame, textvariable=self.ciudad_var)
         self.lbl_cod_postal = ttk.Label(self.frame, text='Código postal')
         self.cod_postal_var = tk.StringVar()
+        self.cod_postal_var.set(ciudad[1])
         self.txt_cod_postal = ttk.Entry(self.frame, textvariable=self.cod_postal_var)
         self.frame.columnconfigure(1, weight=1)
         self.lbl_ciudad.grid(row=0, column=0, padx=5, pady=5, sticky=tk.W)
@@ -85,8 +88,8 @@ class Ciudades():
         self.frame_acciones = ttk.Frame(self.root)
         self.frame_acciones.grid(row=0, column=1)
         self.btn_nueva_ciudad = ttk.Button(self.frame_acciones, text='Nueva ciudad', command=self.nueva_ciudad)
-        self.btn_modificar = ttk.Button(self.frame_acciones, text='Modificar')
-        self.btn_eliminar = ttk.Button(self.frame_acciones, text='Eliminar')
+        self.btn_modificar = ttk.Button(self.frame_acciones, text='Modificar', command=self.modificar_ciudad)
+        self.btn_eliminar = ttk.Button(self.frame_acciones, text='Eliminar', command=self.eliminar_ciudad)
         self.btn_nueva_ciudad.grid(row=0, column=0, padx=(5, 5), pady=(5, 0), sticky=tk.W + tk.E)
         self.btn_modificar.grid(row=1, column=0, padx=(5, 5), pady=(5, 0), sticky=tk.W + tk.E)
         self.btn_eliminar.grid(row=2, column=0, padx=(5, 5), pady=(5, 5), sticky=tk.W + tk.E)
@@ -99,19 +102,34 @@ class Ciudades():
 
     def nueva_ciudad(self):
         ed = EditaCiudad(self.root)
-        c = ed.resultado
-        if c and c[0] and c[1]:
-            try:
-                self.agregar_ciudad(c)
-            except Exception as err:
-                mbox.showerror('Error', str(err))
+        ciudad = ed.resultado
+        if ciudad and ciudad[0] and ciudad[1]:
+            for c in self.lista_ciudades:
+                if c[0] == ciudad[0] or c[1] == ciudad[1]:
+                    mbox.showerror('Error', 'Ciudad o código postal repetido')
+                    return
+            self.lista_ciudades.append(ciudad)
+            self.populate_treeview()
 
-    def agregar_ciudad(self, ciudad):
-        for c in self.lista_ciudades:
-            if c[0] == ciudad[0] or c[1] == ciudad[1]:
-                raise Exception('Ciudad o código postal repetido')
-        self.lista_ciudades.append(ciudad)
-        self.populate_treeview()
+    def modificar_ciudad(self):
+        id_ciudad = self.tree.focus()
+        if id_ciudad:
+            index = self.tree.index(id_ciudad)
+            ciudad = self.lista_ciudades[index]
+            ed = EditaCiudad(self.root, ciudad)
+            c = ed.resultado
+            if c and c[0] and c[1]:
+                self.lista_ciudades[index] = c
+                self.populate_treeview()
+
+    def eliminar_ciudad(self):
+        id_ciudad = self.tree.focus()
+        if id_ciudad:
+            eliminar = mbox.askyesno('Confirme eliminación', '¿Realmente desea eliminar?', default='no', parent=self.root)
+            if eliminar:
+                index = self.tree.index(id_ciudad)
+                self.lista_ciudades.pop(index)
+                self.populate_treeview()
 
 
 if __name__ == '__main__':
