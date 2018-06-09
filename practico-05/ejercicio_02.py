@@ -3,7 +3,7 @@
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from practico_05.ejercicio_01 import Base, Socio
+from ejercicio_01 import Base, Socio
 
 
 class DatosSocio(object):
@@ -14,6 +14,7 @@ class DatosSocio(object):
         db_session = sessionmaker()
         db_session.bind = engine
         self.session = db_session()
+        Base.metadata.create_all(engine)
 
     def buscar(self, id_socio):
         """
@@ -21,14 +22,14 @@ class DatosSocio(object):
         Devuelve None si no encuentra nada.
         :rtype: Socio
         """
-        return
+        return self.session.query(Socio).filter(Socio.id == id_socio).first()
 
     def todos(self):
         """
         Devuelve listado de todos los socios en la base de datos.
         :rtype: list
         """
-        return []
+        return self.session.query(Socio).all()
 
     def borrar_todos(self):
         """
@@ -36,6 +37,9 @@ class DatosSocio(object):
         Devuelve True si el borrado fue exitoso.
         :rtype: bool
         """
+        if self.session.query(Socio).delete():
+            self.session.commit()
+            return True
         return False
 
     def alta(self, socio):
@@ -44,6 +48,8 @@ class DatosSocio(object):
         :type socio: Socio
         :rtype: Socio
         """
+        self.session.add(socio)
+        self.session.commit()
         return socio
 
     def baja(self, id_socio):
@@ -52,6 +58,9 @@ class DatosSocio(object):
         Devuelve True si el borrado fue exitoso.
         :rtype: bool
         """
+        if self.session.query(Socio).filter(Socio.id == id_socio).delete():
+            self.session.commit()
+            return True
         return False
 
     def modificacion(self, socio):
@@ -61,6 +70,7 @@ class DatosSocio(object):
         :type socio: Socio
         :rtype: Socio
         """
+        self.session.commit()
         return socio
 
 
@@ -71,7 +81,7 @@ def pruebas():
     assert socio.id > 0
 
     # baja
-    assert datos.baja(socio.id) == True
+    assert datos.baja(socio.id) is True
 
     # buscar
     socio_2 = datos.alta(Socio(dni=12345679, nombre='Carlos', apellido='Perez'))
