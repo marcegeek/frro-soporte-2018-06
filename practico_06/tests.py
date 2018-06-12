@@ -38,11 +38,11 @@ class TestsNegocio(unittest.TestCase):
         self.ns.alta(socio)
 
         # valida regla
-        valido = Socio(dni=12345679, nombre='Juan', apellido='García')
+        valido = Socio(id=socio.id + 1, dni=12345679, nombre='Juan', apellido='García')
         self.assertTrue(self.ns.regla_1(valido))
 
         # DNI repetido
-        invalido = socio
+        invalido = Socio(id=valido.id + 1, dni=12345678, nombre='Pedro', apellido='Gomez')
         self.assertRaises(DniRepetido, self.ns.regla_1, invalido)
 
     def test_regla_2_nombre_menor_3(self):
