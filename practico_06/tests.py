@@ -3,7 +3,7 @@
 import unittest
 
 from practico_05.ejercicio_01 import Socio
-from practico_06.capa_negocio import NegocioSocio, LongitudInvalida
+from practico_06.capa_negocio import NegocioSocio, LongitudInvalida, DniRepetido, MaximoAlcanzado
 
 
 class TestsNegocio(unittest.TestCase):
@@ -29,7 +29,20 @@ class TestsNegocio(unittest.TestCase):
         self.assertEqual(len(self.ns.todos()), 1)
 
     def test_regla_1(self):
-        pass
+        # pre-condiciones: no hay socios registrados
+        self.assertEqual(len(self.ns.todos()), 0)
+
+        # ejecuto la logica
+        socio = Socio(dni=12345678, nombre='Juan', apellido='Perez')
+        self.ns.alta(socio)
+
+        # valida regla
+        valido = Socio(dni=12345679, nombre='Juan', apellido='García')
+        self.assertTrue(self.ns.regla_1(valido))
+
+        # DNI repetido
+        invalido = socio
+        self.assertRaises(DniRepetido, self.ns.regla_1, invalido)
 
     def test_regla_2_nombre_menor_3(self):
         # valida regla
@@ -68,7 +81,17 @@ class TestsNegocio(unittest.TestCase):
         self.assertRaises(LongitudInvalida, self.ns.regla_2, invalido)
 
     def test_regla_3(self):
-        pass
+        # pre-condiciones: no hay socios registrados
+        self.assertEqual(len(self.ns.todos()), 0)
+
+        # ejecuto la logica
+        for i in range(12345678, 12345878):  # 200 socios
+            socio = Socio(dni=i, nombre='Juan', apellido='Perez')
+            self.ns.alta(socio)
+
+        # post-condiciones:
+        self.assertEqual(len(self.ns.todos()), 200)
+        self.assertRaises(MaximoAlcanzado, self.ns.regla_3)
 
     def test_baja(self):
         # pre-condiciones: no hay socios registrados
@@ -131,7 +154,7 @@ class TestsNegocio(unittest.TestCase):
         self.ns.alta(socio2)
         self.ns.alta(socio3)
 
-        # post-condiciones: encuentra el socio 2
+        # post-condiciones:
         self.assertEqual(len(self.ns.todos()), 3)
 
     def test_modificacion(self):
