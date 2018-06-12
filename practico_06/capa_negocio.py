@@ -94,7 +94,7 @@ class NegocioSocio(object):
         :raise: DniRepetido
         :return: bool
         """
-        if self.buscar(socio.id) is None:
+        if self.buscar_dni(socio.dni) is None:
             return True
         raise DniRepetido()
 
