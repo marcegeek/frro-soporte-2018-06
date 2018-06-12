@@ -11,6 +11,7 @@ class TestsNegocio(unittest.TestCase):
     def setUp(self):
         super(TestsNegocio, self).setUp()
         self.ns = NegocioSocio()
+        self.ns.datos.borrar_todos()  # arrancar siempre limpio
 
     def tearDown(self):
         super(TestsNegocio, self).tearDown()
@@ -123,7 +124,6 @@ class TestsNegocio(unittest.TestCase):
         self.ns.alta(socio3)
         encontrado = self.ns.buscar(socio2.id)
 
-        # post-condiciones: encuentra el socio 2
         self.assertEqual(encontrado, socio2)
 
     def test_buscar_dni(self):
@@ -158,4 +158,20 @@ class TestsNegocio(unittest.TestCase):
         self.assertEqual(len(self.ns.todos()), 3)
 
     def test_modificacion(self):
-        pass
+        # pre-condiciones: no hay socios registrados
+        self.assertEqual(len(self.ns.todos()), 0)
+
+        # ejecuto la logica
+        socio = Socio(dni=12345678, nombre='Juan', apellido='Perez')
+        self.ns.alta(socio)
+        socio.nombre = 'Pedro'
+        socio.apellido = 'Gómez'
+        socio.dni = 12345679
+        exito = self.ns.modificacion(socio)
+
+        socio_modificado = self.ns.buscar(socio.id)
+
+        self.assertTrue(exito)
+        self.assertEqual(socio_modificado.id, socio.id)
+        self.assertEqual(socio_modificado.nombre, 'Pedro')
+        self.assertEqual(socio_modificado.apellido, 'Gómez')
