@@ -36,33 +36,103 @@ class TestsNegocio(unittest.TestCase):
         valido = Socio(dni=12345678, nombre='Juan', apellido='Perez')
         self.assertTrue(self.ns.regla_2(valido))
 
-        # nombre menor a 3 caracteres
-        invalido = Socio(dni=12345678, nombre='J', apellido='Perez')
+        # nombre menor o igual a 3 caracteres
+        invalido = Socio(dni=12345678, nombre='Jua', apellido='Perez')
         self.assertRaises(LongitudInvalida, self.ns.regla_2, invalido)
 
     def test_regla_2_nombre_mayor_15(self):
-        pass
+        # valida regla
+        valido = Socio(dni=12345678, nombre='María Fernanda', apellido='Perez')
+        self.assertTrue(self.ns.regla_2(valido))
+
+        # nombre mayor o igual a 15 caracteres
+        invalido = Socio(dni=12345678, nombre='María Fernandaa', apellido='Perez')
+        self.assertRaises(LongitudInvalida, self.ns.regla_2, invalido)
 
     def test_regla_2_apellido_menor_3(self):
-        pass
+        # valida regla
+        valido = Socio(dni=12345678, nombre='Adrián', apellido='Suar')
+        self.assertTrue(self.ns.regla_2(valido))
+
+        # apellido menor o igual a 3 caracteres
+        invalido = Socio(dni=12345678, nombre='Adrián', apellido='Sua')
+        self.assertRaises(LongitudInvalida, self.ns.regla_2, invalido)
 
     def test_regla_2_apellido_mayor_15(self):
-        pass
+        # valida regla
+        valido = Socio(dni=12345678, nombre='Carlos', apellido='Ibarguengoitia')
+        self.assertTrue(self.ns.regla_2(valido))
+
+        # apellido mayor o igual a 15 caracteres
+        invalido = Socio(dni=12345678, nombre='Carlos', apellido='Ibarguengoitiaa')
+        self.assertRaises(LongitudInvalida, self.ns.regla_2, invalido)
 
     def test_regla_3(self):
         pass
 
     def test_baja(self):
-        pass
+        # pre-condiciones: no hay socios registrados
+        self.assertEqual(len(self.ns.todos()), 0)
+
+        # ejecuto la logica
+        socio1 = Socio(dni=12345678, nombre='Juan', apellido='Perez')
+        socio2 = Socio(dni=12345679, nombre='Juan', apellido='García')
+        socio3 = Socio(dni=12345680, nombre='Roberto', apellido='Rodríguez')
+        self.ns.alta(socio1)
+        self.ns.alta(socio2)
+        self.ns.alta(socio3)
+        exito = self.ns.baja(socio2.id)
+
+        # post-condiciones:
+        self.assertTrue(exito)
+        self.assertEqual(len(self.ns.todos()), 2)
 
     def test_buscar(self):
-        pass
+        # pre-condiciones: no hay socios registrados
+        self.assertEqual(len(self.ns.todos()), 0)
+
+        # ejecuto la logica
+        socio1 = Socio(dni=12345678, nombre='Juan', apellido='Perez')
+        socio2 = Socio(dni=12345679, nombre='Juan', apellido='García')
+        socio3 = Socio(dni=12345680, nombre='Roberto', apellido='Rodríguez')
+        self.ns.alta(socio1)
+        self.ns.alta(socio2)
+        self.ns.alta(socio3)
+        encontrado = self.ns.buscar(socio2.id)
+
+        # post-condiciones: encuentra el socio 2
+        self.assertEqual(encontrado, socio2)
 
     def test_buscar_dni(self):
-        pass
+        # pre-condiciones: no hay socios registrados
+        self.assertEqual(len(self.ns.todos()), 0)
+
+        # ejecuto la logica
+        socio1 = Socio(dni=12345678, nombre='Juan', apellido='Perez')
+        socio2 = Socio(dni=12345679, nombre='Juan', apellido='García')
+        socio3 = Socio(dni=12345680, nombre='Roberto', apellido='Rodríguez')
+        self.ns.alta(socio1)
+        self.ns.alta(socio2)
+        self.ns.alta(socio3)
+        encontrado = self.ns.buscar_dni(socio2.dni)
+
+        # post-condiciones: encuentra el socio 2
+        self.assertEqual(encontrado, socio2)
 
     def test_todos(self):
-        pass
+        # pre-condiciones: no hay socios registrados
+        self.assertEqual(len(self.ns.todos()), 0)
+
+        # ejecuto la logica
+        socio1 = Socio(dni=12345678, nombre='Juan', apellido='Perez')
+        socio2 = Socio(dni=12345679, nombre='Juan', apellido='García')
+        socio3 = Socio(dni=12345680, nombre='Roberto', apellido='Rodríguez')
+        self.ns.alta(socio1)
+        self.ns.alta(socio2)
+        self.ns.alta(socio3)
+
+        # post-condiciones: encuentra el socio 2
+        self.assertEqual(len(self.ns.todos()), 3)
 
     def test_modificacion(self):
         pass
