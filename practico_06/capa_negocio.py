@@ -82,7 +82,7 @@ class NegocioSocio(object):
         """
         try:
             if self.regla_2(socio):
-                self.modificacion(socio)
+                self.datos.modificacion(socio)
             return True
         except Exception as ex:
             raise ex
