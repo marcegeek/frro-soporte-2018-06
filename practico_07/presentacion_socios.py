@@ -37,11 +37,11 @@ class PresentacionSocios:
         self.frame_acciones = ttk.Frame(self.root, padding=(10, 0, 0, 10))
         self.frame_acciones.grid(row=1, column=0, sticky=tk.W + tk.E)
         self.btn_alta = ttk.Button(self.frame_acciones, text='Alta', command=self.alta_socio)
-        self.btn_modificar = ttk.Button(self.frame_acciones, text='Modificar', command=self.modifica_socio)
+        self.btn_modificacion = ttk.Button(self.frame_acciones, text='Modificación', command=self.modifica_socio)
         self.btn_baja = ttk.Button(self.frame_acciones, text='Baja', command=self.baja_socio)
         self.btn_alta.pack(side=tk.LEFT, padx=(0, 5))
         self.btn_baja.pack(side=tk.LEFT, padx=(0, 5))
-        self.btn_modificar.pack(side=tk.LEFT)
+        self.btn_modificacion.pack(side=tk.LEFT)
 
     def populate_treeview(self):
         self.tree.delete(*self.tree.get_children())
