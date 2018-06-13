@@ -9,7 +9,7 @@ from practico_06.capa_negocio import Socio, NegocioSocio, DniRepetido, LongitudI
 
 class PresentacionSocios:
     def __init__(self):
-        self.ns = NegocioSocio()
+        self.negocio_socio = NegocioSocio()
         self.root = tk.Tk()
         self.configure_gui()
         self.create_widgets()
@@ -45,17 +45,17 @@ class PresentacionSocios:
 
     def populate_treeview(self):
         self.tree.delete(*self.tree.get_children())
-        lista_socios = self.ns.todos()
+        lista_socios = self.negocio_socio.todos()
         lista_socios.sort(key=attrgetter('nombre', 'apellido'))  # ordena por nombre y apellido
         for s in lista_socios:
             self.tree.insert('', 'end', values=(s.id, s.nombre, s.apellido, s.dni))
 
     def alta_socio(self):
-        ed = EditaSocio(self.root)
+        ed = EditaSocio(self.root, self.negocio_socio)
         socio = ed.resultado
         if socio:
             try:
-                self.ns.alta(socio)
+                self.negocio_socio.alta(socio)
                 self.populate_treeview()
             except Exception as err:
                 mbox.showerror('Error', str(err))
@@ -67,16 +67,17 @@ class PresentacionSocios:
                                  parent=self.root)
             if baja:
                 id_socio = self.tree.item(item_id, 'values')[0]
-                self.ns.baja(id_socio)
+                self.negocio_socio.baja(id_socio)
                 self.populate_treeview()
 
 
 class EditaSocio:
-    def __init__(self, parent, socio=None):
+    def __init__(self, parent, negocio_socio, socio=None):
         self.parent = parent
         self.top = tk.Toplevel(self.parent)
         self.top.transient(self.parent)
 
+        self.negocio_socio = negocio_socio
         if socio:
             self.top.title('Editando socio')
             self.resultado = socio
@@ -128,11 +129,18 @@ class EditaSocio:
             self.resultado.nombre = self.nombre_var.get()
             self.resultado.apellido = self.apellido_var.get()
             if self.resultado.nombre and self.resultado.apellido and self.resultado.dni:
-                self.finish()
+                if self.negocio_socio.validar_todo(self.resultado):
+                    self.finish()
             else:
                 mbox.showinfo('Campos incompletos', 'Complete todos los campos', parent=self.top)
         except Exception as ex:
-            mbox.showinfo('Error', str(ex), parent=self.top)
+            if len(ex.args) <= 1:  # excepcion simple
+                mbox.showinfo('Error', str(ex), parent=self.top)
+            else:
+                errors = ''
+                for err in ex.args:  # excepcion con multiples excepciones
+                    errors += str(err) + '\n'
+                mbox.showinfo('Errores de validación', errors, parent=self.top)
 
     def cancel(self):
         self.resultado = None
