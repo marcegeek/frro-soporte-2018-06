@@ -10,9 +10,14 @@ class DniRepetido(Exception):
 
 
 class LongitudInvalida(Exception):
-    def __init__(self, min, max):
-        super(LongitudInvalida, self).__init__('Longitud debe estar entre ' +
-                                               str(min) + ' y ' + str(max))
+    def __init__(self, campos_rangos):
+        msg = ''
+        for cr in campos_rangos:
+            campo, min_max = cr
+            min, max = min_max
+            msg += 'Longitud de ' + campo + ' debe estar entre ' +\
+                   str(min) + ' y ' + str(max) + '\n'
+        super(LongitudInvalida, self).__init__(msg)
 
 
 class MaximoAlcanzado(Exception):
@@ -111,10 +116,16 @@ class NegocioSocio(object):
         :raise: LongitudInvalida
         :return: bool
         """
-        if self.MIN_CARACTERES_ABIERTO < len(socio.nombre) < self.MAX_CARACTERES_ABIERTO and \
-                self.MIN_CARACTERES_ABIERTO < len(socio.apellido) < self.MAX_CARACTERES_ABIERTO:
+        errores = []
+        if not self.MIN_CARACTERES_ABIERTO < len(socio.nombre) < self.MAX_CARACTERES_ABIERTO:
+            errores.append(('nombre', (self.MIN_CARACTERES_ABIERTO + 1, self.MAX_CARACTERES_ABIERTO - 1)))
+        if not self.MIN_CARACTERES_ABIERTO < len(socio.apellido) < self.MAX_CARACTERES_ABIERTO:
+            errores.append(('apellido', (self.MIN_CARACTERES_ABIERTO + 1, self.MAX_CARACTERES_ABIERTO - 1)))
+        if len(errores) == 0:
             return True
-        raise LongitudInvalida(self.MIN_CARACTERES_ABIERTO + 1, self.MAX_CARACTERES_ABIERTO - 1)
+        else:
+            raise LongitudInvalida(errores)
+
 
     def regla_3(self):
         """
