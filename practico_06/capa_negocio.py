@@ -18,7 +18,7 @@ class LongitudInvalida(Exception):
 class MaximoAlcanzado(Exception):
     def __init__(self, maximo):
         super(MaximoAlcanzado, self).__init__('Se alcanzó el máximo de ' +
-                                              maximo + ' socios')
+                                              str(maximo) + ' socios')
 
 
 class NegocioSocio(object):
@@ -79,14 +79,14 @@ class NegocioSocio(object):
     def modificacion(self, socio):
         """
         Modifica un socio.
-        Se debe validar la regla 2 primero.
+        Se deben validar las reglas 1 y 2 primero.
         Si no valida, levantar la excepcion correspondiente.
         Devuelve True si la modificacion fue exitosa.
         :type socio: Socio
         :rtype: bool
         """
         try:
-            if self.regla_2(socio):
+            if self.regla_1(socio) and self.regla_2(socio):
                 self.datos.modificacion(socio)
             return True
         except Exception as ex:
@@ -99,7 +99,8 @@ class NegocioSocio(object):
         :raise: DniRepetido
         :return: bool
         """
-        if self.buscar_dni(socio.dni) is None:
+        enc = self.buscar_dni(socio.dni)
+        if enc is None or enc.id == socio.id:
             return True
         raise DniRepetido()
 
