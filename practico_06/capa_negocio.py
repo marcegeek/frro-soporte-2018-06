@@ -113,7 +113,7 @@ class NegocioSocio(object):
         if self.MIN_CARACTERES_ABIERTO < len(socio.nombre) < self.MAX_CARACTERES_ABIERTO and \
                 self.MIN_CARACTERES_ABIERTO < len(socio.apellido) < self.MAX_CARACTERES_ABIERTO:
             return True
-        raise LongitudInvalida(self.MIN_CARACTERES_ABIERTO + 1, self.MIN_CARACTERES_ABIERTO - 1)
+        raise LongitudInvalida(self.MIN_CARACTERES_ABIERTO + 1, self.MAX_CARACTERES_ABIERTO - 1)
 
     def regla_3(self):
         """
@@ -136,12 +136,13 @@ class NegocioSocio(object):
         errores = []
         for r in zip((self.regla_1, self.regla_2, self.regla_3), (socio, socio, None)):
             try:
-                if r[1] is not None:
-                    r[0](r[1])
+                regla, arg = r
+                if arg is not None:
+                    regla(arg)
                 else:
-                    r[0]()
+                    regla()
             except Exception as ex:
                 errores.append(ex)
         if len(errores) > 0:
-            raise Exception(errores)
+            raise Exception(*errores)
         return True
