@@ -124,3 +124,24 @@ class NegocioSocio(object):
         if len(self.datos.todos()) < self.MAX_SOCIOS:
             return True
         raise MaximoAlcanzado(self.MAX_SOCIOS)
+
+    def validar_todo(self, socio):
+        """
+        Validar las 3 reglas de negocio
+        Si no validan, levanta la excepcion correspondiente.
+        Devuelve True si las validaciones son exitosas.
+        :type socio: Socio
+        :rtype: bool
+        """
+        errores = []
+        for r in zip((self.regla_1, self.regla_2, self.regla_3), (socio, socio, None)):
+            try:
+                if r[1] is not None:
+                    r[0](r[1])
+                else:
+                    r[0]()
+            except Exception as ex:
+                errores.append(ex)
+        if len(errores) > 0:
+            raise Exception(errores)
+        return True
