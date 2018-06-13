@@ -63,13 +63,13 @@ class PresentacionSocios:
     def modifica_socio(self):
         item_id = self.tree.focus()
         if item_id:
-            id_socio, nombre, apellido, dni = self.tree.item(item_id, 'values')
-            socio = Socio(id=id_socio, nombre=nombre, apellido=apellido, dni=dni)
+            id_socio = self.tree.item(item_id, 'values')[0]
+            socio = self.negocio_socio.buscar(id_socio)
             ed = EditaSocio(self.root, self.negocio_socio, socio=socio)
             s = ed.resultado
             if s:
                 try:
-                    self.negocio_socio.modificacion(s)
+                    self.negocio_socio.modificacion(socio)
                     self.populate_treeview()
                 except Exception as err:
                     mbox.showerror('Error', str(err), parent=self.root)
@@ -97,10 +97,10 @@ class EditaSocio:
             self.resultado = socio
         else:
             self.top.title('Alta socio')
-            self.resultado = Socio(nombre='', apellido='', dni=0)
+            self.resultado = Socio(id=0, nombre='', apellido='', dni=0)
         self.top.resizable(1, 0)
 
-        self.frame = ttk.Frame(self.top)
+        self.frame = ttk.Frame(self.top, padding=10)
         self.top.columnconfigure(0, weight=1)
         self.frame.grid(sticky=tk.W + tk.E)
         self.lbl_id = ttk.Label(self.frame, text='Id')
@@ -118,19 +118,21 @@ class EditaSocio:
         self.dni_var.set(self.resultado.dni)
         self.txt_dni = ttk.Entry(self.frame, textvariable=self.dni_var)
         self.frame.columnconfigure(1, weight=1)
-        self.lbl_nombre.grid(row=0, column=0, padx=5, pady=5, sticky=tk.W)
-        self.txt_nombre.grid(row=0, column=1, padx=5, pady=5, sticky=tk.W + tk.E)
-        self.lbl_apellido.grid(row=1, column=0, padx=5, pady=5, sticky=tk.W)
-        self.txt_apellido.grid(row=1, column=1, padx=5, pady=5, sticky=tk.W + tk.E)
-        self.lbl_dni.grid(row=2, column=0, padx=5, pady=5, sticky=tk.W)
-        self.txt_dni.grid(row=2, column=1, padx=5, pady=5, sticky=tk.W + tk.E)
+        self.lbl_id.grid(row=0, column=0, padx=(0, 10), pady=(0, 10), sticky=tk.W)
+        self.txt_id.grid(row=0, column=1, pady=(0, 10), sticky=tk.W + tk.E)
+        self.lbl_nombre.grid(row=1, column=0, padx=(0, 10), pady=(0, 10), sticky=tk.W)
+        self.txt_nombre.grid(row=1, column=1, pady=(0, 10), sticky=tk.W + tk.E)
+        self.lbl_apellido.grid(row=2, column=0, padx=(0, 10), pady=(0, 10), sticky=tk.W)
+        self.txt_apellido.grid(row=2, column=1, pady=(0, 10), sticky=tk.W + tk.E)
+        self.lbl_dni.grid(row=3, column=0, padx=(0, 10), sticky=tk.W)
+        self.txt_dni.grid(row=3, column=1, sticky=tk.W + tk.E)
 
-        self.btn_frame = ttk.Frame(self.top)
-        self.btn_frame.grid(sticky=tk.E)
+        self.btn_frame = ttk.Frame(self.top, padding=(0, 0, 10, 10))
+        self.btn_frame.grid(sticky=tk.W + tk.E)
         self.btn_aceptar = ttk.Button(self.btn_frame, text='Aceptar', command=self.ok)
         self.btn_cancelar = ttk.Button(self.btn_frame, text='Cancelar', command=self.cancel)
-        self.btn_aceptar.pack(side=tk.LEFT, padx=5, pady=5)
-        self.btn_cancelar.pack(side=tk.LEFT, padx=5, pady=5)
+        self.btn_cancelar.pack(side=tk.RIGHT)
+        self.btn_aceptar.pack(side=tk.RIGHT, padx=(0, 5))
 
         self.top.grab_set()
         self.top.protocol("WM_DELETE_WINDOW", self.cancel)
@@ -147,6 +149,8 @@ class EditaSocio:
                     self.finish()
             else:
                 mbox.showinfo('Campos incompletos', 'Complete todos los campos', parent=self.top)
+        except tk.TclError:
+            mbox.showinfo('Error', 'El DNI debe ser un número entero', parent=self.top)
         except Exception as ex:
             if len(ex.args) <= 1:  # excepcion simple
                 mbox.showinfo('Error', str(ex), parent=self.top)
