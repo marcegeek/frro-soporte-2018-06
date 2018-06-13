@@ -37,7 +37,7 @@ class PresentacionSocios:
         self.frame_acciones = ttk.Frame(self.root, padding=(10, 0, 0, 10))
         self.frame_acciones.grid(row=1, column=0, sticky=tk.W + tk.E)
         self.btn_alta = ttk.Button(self.frame_acciones, text='Alta', command=self.alta_socio)
-        self.btn_modificar = ttk.Button(self.frame_acciones, text='Modificar', command=None)
+        self.btn_modificar = ttk.Button(self.frame_acciones, text='Modificar', command=self.modifica_socio)
         self.btn_baja = ttk.Button(self.frame_acciones, text='Baja', command=self.baja_socio)
         self.btn_alta.pack(side=tk.LEFT, padx=(0, 5))
         self.btn_baja.pack(side=tk.LEFT, padx=(0, 5))
@@ -58,7 +58,21 @@ class PresentacionSocios:
                 self.negocio_socio.alta(socio)
                 self.populate_treeview()
             except Exception as err:
-                mbox.showerror('Error', str(err))
+                mbox.showerror('Error', str(err), parent=self.root)
+
+    def modifica_socio(self):
+        item_id = self.tree.focus()
+        if item_id:
+            id_socio, nombre, apellido, dni = self.tree.item(item_id, 'values')
+            socio = Socio(id=id_socio, nombre=nombre, apellido=apellido, dni=dni)
+            ed = EditaSocio(self.root, self.negocio_socio, socio=socio)
+            s = ed.resultado
+            if s:
+                try:
+                    self.negocio_socio.modificacion(s)
+                    self.populate_treeview()
+                except Exception as err:
+                    mbox.showerror('Error', str(err), parent=self.root)
 
     def baja_socio(self):
         item_id = self.tree.focus()
