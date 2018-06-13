@@ -96,7 +96,7 @@ class NegocioSocio(object):
         """
         if self.buscar_dni(socio.dni) is None:
             return True
-        raise DniRepetido()
+        raise DniRepetido('DNI repetido')
 
     def regla_2(self, socio):
         """
@@ -108,7 +108,9 @@ class NegocioSocio(object):
         if self.MIN_CARACTERES_ABIERTO < len(socio.nombre) < self.MAX_CARACTERES_ABIERTO and \
                 self.MIN_CARACTERES_ABIERTO < len(socio.apellido) < self.MAX_CARACTERES_ABIERTO:
             return True
-        raise LongitudInvalida()
+        raise LongitudInvalida('Longitud debe estar entre ' +
+                               str(self.MIN_CARACTERES_ABIERTO) + ' y ' +
+                               str(self.MAX_CARACTERES_ABIERTO))
 
     def regla_3(self):
         """
@@ -118,4 +120,4 @@ class NegocioSocio(object):
         """
         if len(self.datos.todos()) < self.MAX_SOCIOS:
             return True
-        raise MaximoAlcanzado()
+        raise MaximoAlcanzado('Se alcanzó el máximo de ' + str(self.MAX_SOCIOS))
