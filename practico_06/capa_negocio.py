@@ -5,15 +5,20 @@ from practico_05.ejercicio_02 import DatosSocio
 
 
 class DniRepetido(Exception):
-    pass
+    def __init__(self):
+        super(DniRepetido, self).__init__('DNI repetido')
 
 
 class LongitudInvalida(Exception):
-    pass
+    def __init__(self, min, max):
+        super(LongitudInvalida, self).__init__('Longitud debe estar entre ' +
+                                               str(min) + ' y ' + str(max))
 
 
 class MaximoAlcanzado(Exception):
-    pass
+    def __init__(self, maximo):
+        super(MaximoAlcanzado, self).__init__('Se alcanzó el máximo de ' +
+                                              maximo + ' socios')
 
 
 class NegocioSocio(object):
@@ -96,7 +101,7 @@ class NegocioSocio(object):
         """
         if self.buscar_dni(socio.dni) is None:
             return True
-        raise DniRepetido('DNI repetido')
+        raise DniRepetido()
 
     def regla_2(self, socio):
         """
@@ -108,9 +113,7 @@ class NegocioSocio(object):
         if self.MIN_CARACTERES_ABIERTO < len(socio.nombre) < self.MAX_CARACTERES_ABIERTO and \
                 self.MIN_CARACTERES_ABIERTO < len(socio.apellido) < self.MAX_CARACTERES_ABIERTO:
             return True
-        raise LongitudInvalida('Longitud debe estar entre ' +
-                               str(self.MIN_CARACTERES_ABIERTO) + ' y ' +
-                               str(self.MAX_CARACTERES_ABIERTO))
+        raise LongitudInvalida(self.MIN_CARACTERES_ABIERTO + 1, self.MIN_CARACTERES_ABIERTO - 1)
 
     def regla_3(self):
         """
@@ -120,4 +123,4 @@ class NegocioSocio(object):
         """
         if len(self.datos.todos()) < self.MAX_SOCIOS:
             return True
-        raise MaximoAlcanzado('Se alcanzó el máximo de ' + str(self.MAX_SOCIOS))
+        raise MaximoAlcanzado(self.MAX_SOCIOS)
