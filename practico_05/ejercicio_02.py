@@ -24,6 +24,14 @@ class DatosSocio(object):
         """
         return self.session.query(Socio).filter(Socio.id == id_socio).first()
 
+    def buscar_dni(self, dni_socio):
+        """
+        Devuelve la instancia del socio, dado su dni.
+        Devuelve None si no encuentra nada.
+        :rtype: Socio
+        """
+        return self.session.query(Socio).filter(Socio.dni == dni_socio).first()
+
     def todos(self):
         """
         Devuelve listado de todos los socios en la base de datos.
@@ -37,8 +45,10 @@ class DatosSocio(object):
         Devuelve True si el borrado fue exitoso.
         :rtype: bool
         """
-        if self.session.query(Socio).delete():
-            self.session.commit()
+        todos = self.todos()
+        for s in todos:
+            self.baja(s.id)
+        if len(todos):
             return True
         return False
 
@@ -87,6 +97,10 @@ def pruebas():
     socio_2 = datos.alta(Socio(dni=12345679, nombre='Carlos', apellido='Perez'))
     assert datos.buscar(socio_2.id) == socio_2
 
+    # buscar dni
+    socio_2 = datos.alta(Socio(dni=12345681, nombre='Carlos', apellido='Perez'))
+    assert datos.buscar_dni(socio_2.dni) == socio_2
+
     # modificacion
     socio_3 = datos.alta(Socio(dni=12345680, nombre='Susana', apellido='Gimenez'))
     socio_3.nombre = 'Moria'
@@ -100,7 +114,7 @@ def pruebas():
     assert socio_3_modificado.dni == 13264587
 
     # todos
-    assert len(datos.todos()) == 2
+    assert len(datos.todos()) == 3
 
     # borrar todos
     datos.borrar_todos()
