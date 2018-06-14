@@ -126,7 +126,6 @@ class NegocioSocio(object):
         else:
             raise LongitudInvalida(errores)
 
-
     def regla_3(self):
         """
         Validar que no se esta excediendo la cantidad maxima de socios.
