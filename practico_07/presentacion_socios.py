@@ -97,14 +97,17 @@ class EditaSocio:
             self.resultado = socio
         else:
             self.top.title('Alta socio')
-            self.resultado = Socio(id=0, nombre='', apellido='', dni=0)
+            self.resultado = Socio(nombre='', apellido='', dni=0)
+        id_socio = self.resultado.id
+        if id_socio is None:
+            id_socio = 0
         self.top.resizable(1, 0)
 
         self.frame = ttk.Frame(self.top, padding=10)
         self.top.columnconfigure(0, weight=1)
         self.frame.grid(sticky=tk.W + tk.E)
         self.lbl_id = ttk.Label(self.frame, text='Id')
-        self.txt_id = ttk.Label(self.frame, text=str(self.resultado.id))
+        self.txt_id = ttk.Label(self.frame, text=str(id_socio))
         self.lbl_nombre = ttk.Label(self.frame, text='Nombre')
         self.nombre_var = tk.StringVar()
         self.nombre_var.set(self.resultado.nombre)
