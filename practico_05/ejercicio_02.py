@@ -13,7 +13,7 @@ class DatosSocio(object):
         Base.metadata.bind = engine
         db_session = sessionmaker()
         db_session.bind = engine
-        self.session = db_session()
+        self.session = db_session(autoflush=False)
         Base.metadata.create_all(engine)
 
     def buscar(self, id_socio):
